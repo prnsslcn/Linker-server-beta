@@ -73,7 +73,7 @@ public class AdminServiceImpl implements AdminService {
         return MemberDTO.builder()
                 .mno(member.getMno())
                 .email(member.getEmail())
-                .username(member.getUsername())
+                .nickname(member.getNickname())
                 .role(member.getRole())
                 .build();
     }

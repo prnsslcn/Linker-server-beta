@@ -50,4 +50,15 @@ public class Post {
 
     @Column(nullable = false)
     private String postType;  // "LOST", "FOUND", "FREE"
+
+    // 추가된 메서드
+    public void changeTitle(String title) {
+        this.title = title;
+        this.updated = LocalDateTime.now(); // 수정 시각 업데이트
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+        this.updated = LocalDateTime.now(); // 수정 시각 업데이트
+    }
 }

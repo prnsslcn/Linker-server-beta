@@ -34,4 +34,10 @@ public class Comment {
 
     @Column(nullable = true)
     private LocalDateTime updated;
+
+    // 추가된 메서드
+    public void changeContent(String content) {
+        this.content = content;
+        this.updated = LocalDateTime.now(); // 수정 시각 업데이트
+    }
 }

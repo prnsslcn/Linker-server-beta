@@ -59,4 +59,8 @@ public class Member {
         this.profileImage = null;
     }
 
+    // 추가된 메서드
+    public MemberRole getRole() {
+        return memberRole;
+    }
 }
