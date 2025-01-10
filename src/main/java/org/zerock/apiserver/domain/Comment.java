@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString
 @Table(name = "comment")
 public class Comment {
@@ -39,5 +40,10 @@ public class Comment {
     public void changeContent(String content) {
         this.content = content;
         this.updated = LocalDateTime.now(); // 수정 시각 업데이트
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.created = LocalDateTime.now();
     }
 }
