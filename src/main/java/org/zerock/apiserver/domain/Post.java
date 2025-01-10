@@ -51,6 +51,11 @@ public class Post {
     @Column(nullable = false)
     private String postType;  // "LOST", "FOUND", "FREE"
 
+    @PrePersist
+    public void prePersist() {
+        this.created = LocalDateTime.now();
+    }
+
     // 추가된 메서드
     public void changeTitle(String title) {
         this.title = title;

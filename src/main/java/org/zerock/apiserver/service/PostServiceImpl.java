@@ -3,10 +3,13 @@ package org.zerock.apiserver.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.zerock.apiserver.domain.Post;
+import org.zerock.apiserver.domain.Member; // Member import 추가
 import org.zerock.apiserver.dto.PostDTO;
 import org.zerock.apiserver.repository.PostRepository;
+import org.zerock.apiserver.repository.MemberRepository; // MemberRepository import 추가
 import org.zerock.apiserver.util.CustomServiceException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +18,7 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository; // MemberRepository 주입
 
     @Override
     public PostDTO get(Long pno) {
@@ -24,7 +28,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Long register(PostDTO postDTO) {
-        Post post = postRepository.save(dtoToEntity(postDTO));
+        // 회원 정보를 가져옵니다.
+        Member member = memberRepository.findById(postDTO.getMno())
+                .orElseThrow(() -> new CustomServiceException("NOT_EXIST_MEMBER"));
+
+        // Post 객체를 생성할 때 member를 설정합니다.
+        Post post = Post.builder()
+                .title(postDTO.getTitle())
+                .content(postDTO.getContent())
+                .postType(postDTO.getPostType())
+                .member(member) // member 설정
+                .created(LocalDateTime.now())
+                .build();
+
+        postRepository.save(post);
         return post.getPno();
     }
 
@@ -58,6 +75,7 @@ public class PostServiceImpl implements PostService {
                 .title(postDTO.getTitle())
                 .content(postDTO.getContent())
                 .postType(postDTO.getPostType())
+                .created(LocalDateTime.now())
                 .build();
     }
 
