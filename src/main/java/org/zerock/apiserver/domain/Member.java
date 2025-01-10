@@ -25,8 +25,12 @@ public class Member {
 
     private boolean social;
 
-    @Builder.Default
-    private MemberRole memberRole = MemberRole.USER;
+//    @Builder.Default
+//    private MemberRole memberRole = MemberRole.USER;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false) // 추가된 부분
+    private MemberRole memberRole;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private ProfileImage profileImage;
