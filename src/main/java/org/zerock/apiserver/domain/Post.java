@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = "comments")
 @Table(name = "post")
 public class Post {
 
@@ -50,6 +51,9 @@ public class Post {
 
     @Column(nullable = false)
     private String postType;  // "LOST", "FOUND", "FREE"
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true) // Post 삭제 시 관련 Comment 삭제
+    private List<Comment> comments;
 
     @PrePersist
     public void prePersist() {

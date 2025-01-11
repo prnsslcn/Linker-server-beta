@@ -32,6 +32,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath password = createString("password");
 
+    public final ListPath<Post, QPost> posts = this.<Post, QPost>createList("posts", Post.class, QPost.class, PathInits.DIRECT2);
+
     public final QProfileImage profileImage;
 
     public final BooleanPath social = createBoolean("social");

@@ -3,12 +3,14 @@ package org.zerock.apiserver.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = "profileImage")
+@ToString(exclude = {"profileImage", "posts"}) // + posts
 public class Member {
 
     @Id
@@ -32,6 +34,9 @@ public class Member {
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private ProfileImage profileImage;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true) // Member 삭제 시 관련 Post 삭제
+    private List<Post> posts;
 
     public void changeRole(MemberRole memberRole) {
         this.memberRole = memberRole;

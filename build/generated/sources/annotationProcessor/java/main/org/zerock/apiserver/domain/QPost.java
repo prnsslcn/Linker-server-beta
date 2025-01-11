@@ -24,6 +24,8 @@ public class QPost extends EntityPathBase<Post> {
 
     public final QCategory category;
 
+    public final ListPath<Comment, QComment> comments = this.<Comment, QComment>createList("comments", Comment.class, QComment.class, PathInits.DIRECT2);
+
     public final StringPath content = createString("content");
 
     public final DateTimePath<java.time.LocalDateTime> created = createDateTime("created", java.time.LocalDateTime.class);
